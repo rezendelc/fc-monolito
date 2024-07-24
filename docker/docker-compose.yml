@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    tty: true
+    command: npm install && npm run test
+    volumes:
+      - ..:/usr/node/app
+    ports:
+      - "3000:3000"
