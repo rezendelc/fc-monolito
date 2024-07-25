@@ -1,10 +1,8 @@
-version: '3.9'
 services:
   app:
-    build: .
-    tty: true
-    command: npm install && npm run test
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: npm i
     volumes:
-      - ..:/usr/node/app
-    ports:
-      - "3000:3000"
+      - ..:/usr/src/app

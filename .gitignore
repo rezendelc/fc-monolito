@@ -2,3 +2,6 @@ node_modules
 .vscode
 .swc
 dist
+.npm
+.config
+.node_repl_history

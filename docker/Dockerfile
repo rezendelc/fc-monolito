@@ -1,5 +1,8 @@
-FROM node:latest
+FROM node:lts-alpine
 
-WORKDIR /usr/node/app
-# RUN npm install --quiet
-COPY .. .
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+ENV HOME /usr/src/app
+COPY .. /usr/src/app
+
+RUN npm install
