@@ -7,6 +7,7 @@ type InvoiceItemProps = {
   id?: Id
   name: string
   price: number
+  invoiceId: Id
 }
 
 export default class InvoiceItem implements AggregateRoot {
@@ -14,11 +15,13 @@ export default class InvoiceItem implements AggregateRoot {
   private _id: Id
   private _name: string
   private _price: number
+  private _invoiceId: Id
 
   constructor(props: InvoiceItemProps) {
     this._id = props.id
     this._name = props.name
     this._price = props.price
+    this._invoiceId = props.invoiceId
   }
 
   get id(): Id {
@@ -31,5 +34,9 @@ export default class InvoiceItem implements AggregateRoot {
 
   get price(): number {
     return this._price
+  }
+
+  get invoiceId(): Id {
+    return this._invoiceId
   }
 }

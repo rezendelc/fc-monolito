@@ -1,4 +1,4 @@
-import { Column, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { BelongsTo, Column, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
 
 @Table({
   tableName: "invoices",
@@ -31,7 +31,7 @@ export class InvoiceModel extends Model {
   state: string
 
   @Column({ allowNull: false })
-  zipcode: string
+  zipCode: string
 
   @Column({ allowNull: false })
   createdAt: Date;
@@ -43,6 +43,10 @@ export class InvoiceModel extends Model {
   declare items?: InvoiceItemModel[];
 }
 
+@Table({
+  tableName: "invoices_items",
+  timestamps: false,
+})
 export class InvoiceItemModel extends Model {
   @PrimaryKey
   @Column({ allowNull: false })
@@ -53,4 +57,11 @@ export class InvoiceItemModel extends Model {
 
   @Column({ allowNull: false })
   price: number;
+
+  @ForeignKey(() => InvoiceModel)
+  @Column({ allowNull: false })
+  invoiceId: string;
+
+  @BelongsTo(() => InvoiceModel)
+  invoice?: InvoiceModel;
 }

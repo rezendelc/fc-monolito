@@ -3,6 +3,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    command: npm i
+    command: sh -c "npm test"
+    tty: true
     volumes:
       - ..:/usr/src/app
