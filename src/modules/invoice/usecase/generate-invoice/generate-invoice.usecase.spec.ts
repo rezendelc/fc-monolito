@@ -1,4 +1,3 @@
-import Address from "../../../@shared/domain/value-object/address"
 import GenerateInvoiceUseCase from './generate-invoice.usecase'
 
 
@@ -11,7 +10,7 @@ const MockRepository = () => {
 
 describe("Add Invoice use case unit test", () => {
 
-  it("should add a invoice", async () => {
+  it("should generate an invoice", async () => {
 
     const repository = MockRepository()
     const usecase = new GenerateInvoiceUseCase(repository)
