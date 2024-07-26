@@ -8,7 +8,7 @@ import { InvoiceModel, InvoiceItemModel } from "./invoice.model";
 
 export default class InvoiceRepository implements InvoiceGateway {
 
-  async generate(entity: Invoice, t: Transaction): Promise<void> {
+  async generate(entity: Invoice): Promise<void> {
     await InvoiceModel.create({
       id: entity.id.id,
       name: entity.name,
@@ -19,10 +19,10 @@ export default class InvoiceRepository implements InvoiceGateway {
       city: entity.address.city,
       state: entity.address.state,
       zipCode: entity.address.zipCode,
-      items: entity.items,
+      total: entity.items.reduce((total, currentItem) => total + currentItem.price, 0),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt
-    }, { transaction: t })
+    })
 
     const items = entity.items.map(item => ({
       id: item.id.id,
@@ -31,7 +31,7 @@ export default class InvoiceRepository implements InvoiceGateway {
       invoiceId: entity.id.id,
     }));
 
-    await InvoiceItemModel.bulkCreate(items, { transaction: t })
+    await InvoiceItemModel.bulkCreate(items)
   }
 
   async find(id: string): Promise<Invoice> {
@@ -57,8 +57,7 @@ export default class InvoiceRepository implements InvoiceGateway {
       items: invoice.items.map(item => new InvoiceItem({
         id: new Id(item.id),
         name: item.name,
-        price: item.price,
-        invoiceId: new Id(invoice.id)
+        price: item.price
       })),
       createdAt: invoice.createdAt,
       updatedAt: invoice.updatedAt

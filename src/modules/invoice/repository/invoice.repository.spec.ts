@@ -29,15 +29,13 @@ describe("InvoiceRepository test", () => {
     const invoiceItem1 = new InvoiceItem({
       id: new Id("2"),
       name: "item1",
-      price: 5,
-      invoiceId: new Id("1")
+      price: 5
     })
 
     const invoiceItem2 = new InvoiceItem({
       id: new Id("3"),
       name: "item2",
-      price: 10,
-      invoiceId: new Id("1")
+      price: 10
     })
 
     const invoice = new Invoice({
@@ -56,9 +54,7 @@ describe("InvoiceRepository test", () => {
     });
 
     const invoiceRepository = new InvoiceRepository();
-    await sequelize.transaction(async (t) => {
-      await invoiceRepository.generate(invoice, t)
-    });
+    await invoiceRepository.generate(invoice)
 
     const dbInvoice = await InvoiceModel.findOne({
       where: { id: "1" },
@@ -85,6 +81,21 @@ describe("InvoiceRepository test", () => {
   });
 
   it("should find one invoice by id", async () => {
+    const invoiceItems = [
+      {
+        id: "2",
+        name: "Item 1",
+        price: 5,
+        invoiceId: "1"
+      },
+      {
+        id: "3",
+        name: "Item 2",
+        price: 10,
+        invoiceId: "1"
+      }
+    ]
+
     const invoice = {
       id: "1",
       name: "Invoice 1",
@@ -95,29 +106,13 @@ describe("InvoiceRepository test", () => {
       city: "city",
       state: "state",
       zipCode: "zipCode",
+      total: invoiceItems.reduce((total, currentItem) => total + currentItem.price, 0),
       createdAt: new Date(),
       updatedAt: new Date()
     };
 
-    const invoiceItems = [
-      {
-        id: "2",
-        name: "item1",
-        price: 5,
-        invoiceId: invoice.id
-      },
-      {
-        id: "3",
-        name: "item2",
-        price: 10,
-        invoiceId: invoice.id
-      }
-    ]
-
-    await sequelize.transaction(async (t) => {
-      await InvoiceModel.create(invoice, { transaction: t })
-      await InvoiceItemModel.bulkCreate(invoiceItems, { transaction: t })
-    });
+    await InvoiceModel.create(invoice)
+    await InvoiceItemModel.bulkCreate(invoiceItems)
 
     const repository = new InvoiceRepository();
     const result = await repository.find(invoice.id)
@@ -134,12 +129,10 @@ describe("InvoiceRepository test", () => {
 
     expect(result.items).toHaveLength(2);
     expect(result.items[0].id.id).toBe("2");
-    expect(result.items[0].name).toBe("item1");
+    expect(result.items[0].name).toBe("Item 1");
     expect(result.items[0].price).toBe(5);
-    expect(result.items[0].invoiceId.id).toBe("1");
     expect(result.items[1].id.id).toBe("3");
-    expect(result.items[1].name).toBe("item2");
+    expect(result.items[1].name).toBe("Item 2");
     expect(result.items[1].price).toBe(10);
-    expect(result.items[1].invoiceId.id).toBe("1");
   });
 });

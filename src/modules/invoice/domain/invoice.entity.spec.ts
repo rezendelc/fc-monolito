@@ -8,13 +8,11 @@ describe("Methods of invoice entity unit test", () => {
     const invoiceItem1 = new InvoiceItem({
       name: "Item1",
       price: 7,
-      invoiceId: new Id("1")
     })
 
     const invoiceItem2 = new InvoiceItem({
       name: "Item2",
       price: 9,
-      invoiceId: new Id("1")
     })
 
     const invoice = new Invoice({
