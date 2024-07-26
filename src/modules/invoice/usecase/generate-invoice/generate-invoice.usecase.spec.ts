@@ -51,6 +51,7 @@ describe("Add Invoice use case unit test", () => {
     expect(result.city).toEqual(input.city)
     expect(result.state).toEqual(input.state)
     expect(result.zipCode).toEqual(input.zipCode)
+    expect(result.total).toBe(15)
 
     expect(result.items).toHaveLength(2);
     expect(result.items[0].id).toBe("2");

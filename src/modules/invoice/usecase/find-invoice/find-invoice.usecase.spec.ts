@@ -56,6 +56,7 @@ describe("Find Invoice use case unit test", () => {
     expect(result.document).toEqual(invoice.document)
     expect(result.address).toEqual(invoice.address)
     expect(result.createdAt).toEqual(invoice.createdAt)
+    expect(result.total).toBe(15)
 
     expect(result.items).toHaveLength(2);
     expect(result.items[0].id).toBe("2");
