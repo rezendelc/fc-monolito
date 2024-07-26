@@ -70,6 +70,7 @@ describe("InvoiceRepository test", () => {
     expect(dbInvoice.city).toBe("city");
     expect(dbInvoice.state).toBe("state");
     expect(dbInvoice.zipCode).toBe("zipCode");
+    expect(dbInvoice.total).toBe(15)
 
     expect(dbInvoice.items).toHaveLength(2);
     expect(dbInvoice.items[0].id).toBe("2");
@@ -126,6 +127,7 @@ describe("InvoiceRepository test", () => {
     expect(result.address.city).toBe("city");
     expect(result.address.state).toBe("state");
     expect(result.address.zipCode).toBe("zipCode");
+    expect(result.total).toBe(15)
 
     expect(result.items).toHaveLength(2);
     expect(result.items[0].id.id).toBe("2");

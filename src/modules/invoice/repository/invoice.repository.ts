@@ -1,4 +1,3 @@
-import { Transaction } from 'sequelize';
 import Address from "../../@shared/domain/value-object/address";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import InvoiceItem from '../domain/invoice-item.entity';

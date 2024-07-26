@@ -34,7 +34,7 @@ export class InvoiceModel extends Model {
   zipCode: string
 
   @Column({ allowNull: false })
-  total: string
+  total: number
 
   @Column({ allowNull: false })
   createdAt: Date;
